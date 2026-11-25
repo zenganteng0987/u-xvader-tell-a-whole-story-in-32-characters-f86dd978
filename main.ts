@@ -1,9 +1,20 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+// Entry: one Wi-Fi name that tells a whole story in 32 characters.
+// The joke is a divorce settled in two sentences — he kept the dog,
+// she kept the connection, and the Wi-Fi password stayed with her.
 
-// Wi-Fi name entry: a divorce in two sentences — he took the dog,
-// she took the Wi-Fi. Exactly 32 characters, the gate maximum.
-const entry = "He took the dog. I took the WiFi";
+import { writeFileSync, mkdirSync } from "node:fs";
 
-mkdirSync("/output", { recursive: true });
-writeFileSync("/output/entry.txt", entry, "utf8");
-console.log(entry);
+const OUT_DIR = "/output";
+const OUT_FILE = `${OUT_DIR}/entry.txt`;
+
+// The full story, in one network name.
+const story = "He took the dog. I took the WiFi";
+
+// Sanity check: the bounty caps the name at 32 characters.
+if (story.length !== 32) {
+  throw new Error(`entry must be 32 characters, got ${story.length}`);
+}
+
+mkdirSync(OUT_DIR, { recursive: true });
+writeFileSync(OUT_FILE, story, { encoding: "utf8" });
+process.stdout.write(story + "\n");
